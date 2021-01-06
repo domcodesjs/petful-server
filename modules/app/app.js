@@ -1,11 +1,28 @@
-const express = require('express')
-const cors = require('cors')
+require('dotenv').config();
+const express = require('express');
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const cors = require('cors');
+const helmet = require('helmet');
 
-const app = express()
+const app = express();
 
-app.use(cors())
+app.use(
+  cors({
+    origin: process.env.CLIENT_ORIGIN || 'http://localhost:3000'
+  })
+);
+app.use(helmet());
 
-app.use('/people', require('../people/people.router'))
-app.use('/pets', require('../pets/pets.router'))
+if (process.env.NODE_ENV !== 'production') {
+  const morgan = require('morgan');
+  app.use(morgan('tiny'));
+}
 
-module.exports = app
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use('/people', require('../people/people.router'));
+app.use('/pets', require('../pets/pets.router'));
+
+module.exports = app;
