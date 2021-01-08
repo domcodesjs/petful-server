@@ -14,9 +14,9 @@ router.get('/', (req, res) => {
   });
 });
 
-router.delete('/', (req, res) => {
+router.delete('/:type', (req, res) => {
   // Remove a pet from adoption.
-  const { type } = req.body;
+  const { type } = req.params;
 
   Pets.dequeue(type);
   People.dequeue();
