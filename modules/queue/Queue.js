@@ -55,10 +55,12 @@ class Queue {
     // Return all items in the queue.
     let arr = [];
     let node = this.first;
+
     while (node !== null) {
       arr.push(node.data);
       node = node.next;
     }
+
     return arr;
   }
 }
